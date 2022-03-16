@@ -7,4 +7,4 @@ This being sait the files are here, free and open source.
 Most of them are designed in Realthunders Assambly3 fork of FreeCad. So if you want to edit them you might need to install it if you do not have allready. Here is the Link: https://github.com/realthunder/FreeCAD_assembly3
 
 
-As mentioned these files are free and open source, but if you want to do me a favour you can subscribe to my youtube channel: youtube.com/makenmodify
+As mentioned these files are free and open source, but if you want to do me a favour you can subscribe to my youtube channel: https://youtube.com/makenmodify
