@@ -9,8 +9,8 @@
 			- https://github.com/tuya-cloudcutter/bk7231tools
 - ## Connecting to the device
 	- Crack it open
-	  ![PXL_20250831_221407597.jpg](images/0.jpg){:height 280, :width 205}     ![pins.jpg](images/1.jpg){:height 301, :width 361}  
-	- ![cbu.svg](images/2.svg){:height 300, :width 590}
+	  ![PXL_20250831_221407597.jpg](images/0.jpg)     ![pins.jpg](images/1.jpg)  
+	- ![cbu.svg](images/2.svg)
 	- Connect TX, RX, GND and something switchable to 3V3 or power the device on
 	-
 - ## Dump firmware
