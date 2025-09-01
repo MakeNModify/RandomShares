@@ -76,7 +76,7 @@ switch:
 ```
 Flash via ESPHome integration in HomeAssistant or locally  
 `esphome compile 3xusbswitch.yaml`  
-`esphome upload --device 3xusbswitch.local 3xusbswitch.yaml`
+`esphome upload --device devicename.local devicename.yaml`
 
 ## Done!
 Just add it inside your ESPHome devices and done
