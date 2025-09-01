@@ -2,13 +2,14 @@
 Here I show my method of converting tuya wifi devices to ESPHome devices. This can be done with most tuya devices. This USB Switch is a relatively simple example but what is done here also applies for more complicated hardware.
 
 ## Needed Tools and Software:
-- USB to TTL converter (CH340G)
-- Basic ESPHome knowlage
-- LTChipTool
-	- https://docs.libretiny.eu/docs/flashing/tools/ltchiptool/
-	- https://github.com/libretiny-eu/ltchiptool
-- BK7231tools
-	- https://github.com/tuya-cloudcutter/bk7231tools
+Basic ESPHome knowlage + 
+### Hardware:
+- USB switch or any target Tuya device https://s.click.aliexpress.com/e/_oDWQrDL
+- USB to TTL Adpater (CH340G) https://s.click.aliexpress.com/e/_ol6f1e5
+### Software:
+- LTChipTool https://github.com/libretiny-eu/ltchiptool
+- BK7231tools https://github.com/tuya-cloudcutter/bk7231tools
+- Kickstart Firmware https://github.com/libretiny-eu/esphome-kickstart/releases
 ## Connecting to the device
 ### Crack it open
 ![PXL_20250831_221407597.jpg](images/0.jpg)     ![pins.jpg](images/1.jpg)  
@@ -64,14 +65,14 @@ Most settings can be left unchanged, but we need to add the pins
 ```YAML
 switch:
 - platform: gpio
-	name: "USB1"
-	pin: GPIO7
+  name: "USB1"
+  pin: GPIO7
 - platform: gpio
-	name: "USB2"
-	pin: GPIO26
+  name: "USB2"
+  pin: GPIO26
 - platform: gpio
-	name: "USB3"
-	pin: GPIO24
+  name: "USB3"
+  pin: GPIO24
 ```
 Flash via ESPHome integration in HomeAssistant or locally  
 `esphome compile 3xusbswitch.yaml`  
