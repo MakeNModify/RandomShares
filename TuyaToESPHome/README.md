@@ -1,3 +1,4 @@
+Edit: later saw that ther is also an led and button we can use, i added it to the example configuration
 # How to flash ESPHome onto Tuya devices
 Here I show my method of converting tuya wifi devices to ESPHome devices. This can be done with most tuya devices. This USB Switch is a relatively simple example but what is done here also applies for more complicated hardware.
 
@@ -61,18 +62,82 @@ Generate a config in HomeAssistant choosing
 bk72xx:
 board: cbu
 ```
-Most settings can be left unchanged, but we need to add the pins
+Most settings can be left unchanged, but we need to add the pins...  
+Edit: or so thought xD after realizing that there is also a button and an LED it got a bit more involved. The config below adds the LED and the button. 
+### Button logic:
+- 1 button press -> toggle USB1
+- 2 button presses -> toggle USB2
+- 3 button presses -> toggle USB3
+- Long press while one of the USBs is ON -> All OFF
+- Long press while all the USBs are OFF -> All ON
+
+The LED can be toggled via Home Assistant (like the USB ports)
 ```YAML
 switch:
-- platform: gpio
-  name: "USB1"
-  pin: GPIO7
-- platform: gpio
-  name: "USB2"
-  pin: GPIO26
-- platform: gpio
-  name: "USB3"
-  pin: GPIO24
+  - platform: gpio
+    name: "USB1"
+    id: usb1
+    pin: GPIO7
+  - platform: gpio
+    name: "USB2"
+    id: usb2
+    pin: GPIO26
+  - platform: gpio
+    name: "USB3"
+    id: usb3
+    pin: GPIO24
+  - platform: gpio
+    name: "LED"
+    id: led_switch
+    pin: GPIO6
+
+binary_sensor:
+  - platform: gpio
+    pin: GPIO8
+    name: "Button"
+    id: button
+    filters:
+      - invert:  # Assuming active low
+      - delayed_on_off: 50ms  # Debounce
+    on_multi_click:
+      - timing:
+          - ON for at most 500ms
+          - OFF for at least 250ms
+        then:
+          - switch.toggle: usb1
+      - timing:
+          - ON for at most 500ms
+          - OFF for 50ms to 250ms
+          - ON for at most 500ms
+          - OFF for at least 250ms
+        then:
+          - switch.toggle: usb2
+      - timing:
+          - ON for at most 500ms
+          - OFF for 50ms to 250ms
+          - ON for at most 500ms
+          - OFF for 50ms to 250ms
+          - ON for at most 500ms
+          - OFF for at least 250ms
+        then:
+          - switch.toggle: usb3
+      - timing:
+          - ON for at least 2000ms
+        then:
+          - if:
+              condition:
+                or:
+                  - switch.is_on: usb1
+                  - switch.is_on: usb2
+                  - switch.is_on: usb3
+              then:
+                - switch.turn_off: usb1
+                - switch.turn_off: usb2
+                - switch.turn_off: usb3
+              else:
+                - switch.turn_on: usb1
+                - switch.turn_on: usb2
+                - switch.turn_on: usb3
 ```
 Flash via ESPHome integration in HomeAssistant or locally  
 `esphome compile 3xusbswitch.yaml`  
