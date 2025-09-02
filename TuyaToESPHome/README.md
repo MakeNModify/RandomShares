@@ -70,6 +70,8 @@ Edit: or so thought xD after realizing that there is also a button and an LED it
 - 3 button presses -> toggle USB3
 - Long press while one of the USBs is ON -> All OFF
 - Long press while all the USBs are OFF -> All ON
+- If any USB-port is ON, the LED is also turned ON
+- IF all USB-ports are OFF, the LED is also turned OFF 
 
 The LED can be toggled via Home Assistant (like the USB ports)
 ```YAML
@@ -78,17 +80,50 @@ switch:
     name: "USB1"
     id: usb1
     pin: GPIO7
+    on_turn_on:
+      - switch.turn_on: led
+    on_turn_off:
+      - delay: 100ms  # Small delay to ensure state is updated
+      - if:
+          condition:
+            and:
+              - switch.is_off: usb2
+              - switch.is_off: usb3
+          then:
+            - switch.turn_off: led
   - platform: gpio
     name: "USB2"
     id: usb2
     pin: GPIO26
+    on_turn_on:
+      - switch.turn_on: led
+    on_turn_off:
+      - delay: 100ms
+      - if:
+          condition:
+            and:
+              - switch.is_off: usb1
+              - switch.is_off: usb3
+          then:
+            - switch.turn_off: led
   - platform: gpio
     name: "USB3"
     id: usb3
     pin: GPIO24
+    on_turn_on:
+      - switch.turn_on: led
+    on_turn_off:
+      - delay: 100ms
+      - if:
+          condition:
+            and:
+              - switch.is_off: usb1
+              - switch.is_off: usb2
+          then:
+            - switch.turn_off: led
   - platform: gpio
     name: "LED"
-    id: led_switch
+    id: led
     pin: GPIO6
 
 binary_sensor:
@@ -97,7 +132,7 @@ binary_sensor:
     name: "Button"
     id: button
     filters:
-      - invert:  # Assuming active low
+      - invert:  # Assuming active low; remove if not
       - delayed_on_off: 50ms  # Debounce
     on_multi_click:
       - timing:
