@@ -102,7 +102,7 @@
             // Create display element
             const display = document.createElement('span');
             display.className = 'price-per-piece';
-            display.textContent = ` (Price per pcs: ${perPiece}${currency})`;
+            display.textContent = ` (${perPiece}${currency}/pcs)`;
             display.style.color = '#28a745';
             display.style.fontWeight = 'bold';
             display.style.marginLeft = '5px';
