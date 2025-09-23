@@ -8,6 +8,7 @@ These plugins let you add user scripts, little javascripts, that alter the websi
 ## My Scripts
 
 ### AliExpress Price Per Piece Calculator
+(tested with violentmonkey)   
 When you want to buy multiples of something on AliExpress it becomes annoying to calculate the price per item.
 If there are variants of something and the variant contains "3 Pcs" for example it will detect it and divides the price by the number and display the price per item in green next to the price tag. If it can't detect this it tries to find the amount in the title and does the same.
 
